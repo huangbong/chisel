@@ -8,7 +8,9 @@ import time
 import os
 import codecs
 import string
-import jinja2, markdown
+
+import jinja2
+import markdown
 
 #Settings
 SOURCE = "./posts/" #end with slash
