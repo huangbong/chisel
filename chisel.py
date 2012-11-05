@@ -1,12 +1,13 @@
-#!/usr/bin/python
-
 # Chisel
 # David Zhou
-# 
-# Requires:
-# jinja2
+# Some yummy modifications by Mitchell Huang // 11-05-2012
 
-import sys, re, time, os, codecs
+import sys
+import re
+import time
+import os
+import codecs
+import string
 import jinja2, markdown
 
 #Settings
@@ -24,10 +25,19 @@ TIME_FORMAT = "%B %d, %Y"
 ENTRY_TIME_FORMAT = "%m/%d/%Y"
 #FORMAT should be a callable that takes in text
 #and returns formatted text
-FORMAT = lambda text: markdown.markdown(text, ['footnotes',]) 
+FORMAT = lambda text: markdown.markdown(text, ['fenced_code']) 
 #########
 
 STEPS = []
+
+def slug(title):
+    title = title.lower()
+    for char in title:
+        if char in ' ':
+            title = title.replace(char, '-')
+        if char not in string.lowercase + string.digits:
+            title = title.replace(char, '')
+    return title
 
 def step(func):
     def wrapper(*args, **kwargs):
@@ -51,7 +61,7 @@ def get_tree(source):
                 'title': title,
                 'epoch': time.mktime(date),
                 'content': FORMAT(''.join(f.readlines()[1:]).decode('UTF-8')),
-                'url': '/'.join([str(year), "%.2d" % month, "%.2d" % day, os.path.splitext(name)[0] + ".html"]),
+                'url': '/'.join([str(year), "%.2d" % month, "%.2d" % day, slug(title) + ".html"]),
                 'pretty_date': time.strftime(TIME_FORMAT, date),
                 'date': date,
                 'year': year,
@@ -87,7 +97,7 @@ def generate_homepage(f, e):
 def master_archive(f, e):
     """Generate master archive list of all entries"""
     template = e.get_template(TEMPLATES['archive'])
-    write_file("archives.html", template.render(entries=f))
+    write_file("archive.html", template.render(entries=f))
 
 @step
 def detail_pages(f, e):
