@@ -10,13 +10,13 @@ import sys, re, time, os, codecs
 import jinja2, markdown
 
 #Settings
-SOURCE = "./blog/" #end with slash
-DESTINATION = "./export/" #end with slash
-HOME_SHOW = 15 #numer of entries to show on homepage
+SOURCE = "./posts/" #end with slash
+DESTINATION = "./www/" #end with slash
+HOME_SHOW = 10 #numer of entries to show on homepage
 TEMPLATE_PATH = "./templates/"
 TEMPLATE_OPTIONS = {}
 TEMPLATES = {
-    'home': "home.html",
+    'index': "index.html",
     'detail': "detail.html",
     'archive': "archive.html",
 }
@@ -44,7 +44,7 @@ def get_tree(source):
             if name[0] == ".": continue
             path = os.path.join(root, name)
             f = open(path, "rU")
-            title = f.readline()
+            title = f.readline().strip()
             date = time.strptime(f.readline().strip(), ENTRY_TIME_FORMAT)
             year, month, day = date[:3]
             files.append({
@@ -80,7 +80,7 @@ def write_file(url, data):
 @step
 def generate_homepage(f, e):
     """Generate homepage"""
-    template = e.get_template(TEMPLATES['home'])
+    template = e.get_template(TEMPLATES['index'])
     write_file("index.html", template.render(entries=f[:HOME_SHOW]))
 
 @step
