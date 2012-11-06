@@ -24,7 +24,7 @@ TEMPLATES = {
     'archive': "archive.html",
 }
 TIME_FORMAT = "%B %d, %Y"
-ENTRY_TIME_FORMAT = "%m/%d/%Y"
+ENTRY_TIME_FORMAT = "%m/%d/%y"
 #FORMAT should be a callable that takes in text
 #and returns formatted text
 FORMAT = lambda text: markdown.markdown(text, ['fenced_code']) 
@@ -43,9 +43,8 @@ def slug(title):
 
 def step(func):
     def wrapper(*args, **kwargs):
-        print "Starting " + func.__name__ + "...",
+        print func.__name__ + "..."
         func(*args, **kwargs)
-        print "Done."
     STEPS.append(wrapper)
     return wrapper
 
@@ -58,12 +57,21 @@ def get_tree(source):
             f = open(path, "rU")
             title = f.readline().strip()
             date = time.strptime(f.readline().strip(), ENTRY_TIME_FORMAT)
+            content = ''.join(f.readlines()).decode('UTF-8')
             year, month, day = date[:3]
+            f.close()
+
+            f = open(path, "rU")
+            content_md = ''.join(f.readlines()).decode('UTF-8')
+            f.close()
+
             files.append({
                 'title': title,
                 'epoch': time.mktime(date),
-                'content': FORMAT(''.join(f.readlines()[1:]).decode('UTF-8')),
+                'content': FORMAT(content),
                 'url': '/'.join([str(year), "%.2d" % month, "%.2d" % day, slug(title) + ".html"]),
+                'content_md': content_md,
+                'url_md': '/'.join([str(year), "%.2d" % month, "%.2d" % day, slug(title) + ".md"]),
                 'pretty_date': time.strftime(TIME_FORMAT, date),
                 'date': date,
                 'year': year,
@@ -71,7 +79,6 @@ def get_tree(source):
                 'day': day,
                 'filename': name,
             })
-            f.close()
     return files
 
 def compare_entries(x, y):
@@ -107,6 +114,9 @@ def detail_pages(f, e):
     template = e.get_template(TEMPLATES['detail'])
     for file in f:
         write_file(file['url'], template.render(entry=file))
+        print "\t\t\t%s written." % file['url']
+        write_file(file['url_md'], file['content_md'])
+        print "\t\t\t%s written." % file['url_md']
 
 def main():
     print "Chiseling..."
