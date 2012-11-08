@@ -4,11 +4,10 @@
     {% for entry in entries %}
                 <div class="entry">
                     <div class="entry_title"><a href="/{{ entry.url }}">{{ entry.title }}</a></div>
-                    <div class="entry_date">{{ entry.pretty_date }}</div>
+                    <div class="entry_date">{{ entry.pretty_date }} | <a href="{{ entry.url_md }}">RAW</a></div>
                     <div class="entry_content">
                         {{ entry.content }}
                     </div>
-                    <!--<p class="entry_permalink"><a href="/{{ entry.url}}">&infin;</a></p>-->
                 </div>
     {% endfor %}
 {% endblock %}

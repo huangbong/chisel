@@ -1,3 +1,4 @@
+#!./venv/bin/python
 # Chisel
 # David Zhou
 # Some yummy modifications by Mitchell Huang // 11-05-2012
@@ -71,7 +72,7 @@ def get_tree(source):
                 'content': FORMAT(content),
                 'url': '/'.join([str(year), "%.2d" % month, "%.2d" % day, slug(title) + ".html"]),
                 'content_md': content_md,
-                'url_md': '/'.join([str(year), "%.2d" % month, "%.2d" % day, slug(title) + ".md"]),
+                'url_md':  '/' + '/'.join([str(year), "%.2d" % month, "%.2d" % day, slug(title) + ".md"]),
                 'pretty_date': time.strftime(TIME_FORMAT, date),
                 'date': date,
                 'year': year,
