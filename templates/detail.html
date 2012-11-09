@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block title %}
+    <title>{{ entry.title }} | Mitchell Huang</title>
+{% endblock %}
+
 {% block main %}
         <div class="entry">
             <div class="entry_title"><a href="/{{ entry.url }}">{{ entry.title }}</a></div>
