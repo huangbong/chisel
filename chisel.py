@@ -56,9 +56,10 @@ def get_tree(source):
             if name[0] == ".": continue
             path = os.path.join(root, name)
             f = open(path, "rU")
-            title = f.readline().strip()
-            date = time.strptime(f.readline().strip(), ENTRY_TIME_FORMAT)
-            content = ''.join(f.readlines()).decode('UTF-8')
+            lines = f.readlines()
+            title = lines[0].strip()
+            date = time.strptime(lines[1].strip(), ENTRY_TIME_FORMAT)
+            content = ''.join(lines[3:]).decode('UTF-8')
             year, month, day = date[:3]
             f.close()
 
