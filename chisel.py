@@ -61,10 +61,7 @@ def get_tree(source):
             date = time.strptime(lines[1].strip(), ENTRY_TIME_FORMAT)
             content = ''.join(lines[3:]).decode('UTF-8')
             year, month, day = date[:3]
-            f.close()
-
-            f = open(path, "rU")
-            content_md = ''.join(f.readlines()).decode('UTF-8')
+            content_md = ''.join(lines).decode('UTF-8')
             f.close()
 
             files.append({
