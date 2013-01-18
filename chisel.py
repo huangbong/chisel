@@ -1,7 +1,6 @@
 #!./venv/bin/python
 # Chisel
 # David Zhou
-# Some yummy modifications by Mitchell Huang // 11-05-2012
 
 import sys
 import re
@@ -13,10 +12,10 @@ import string
 import jinja2
 import markdown
 
-#Settings
-SOURCE = "./posts/" #end with slash
-DESTINATION = "./www/" #end with slash
-HOME_SHOW = 10 #numer of entries to show on homepage
+# Settings
+SOURCE = "./posts/" # end with slash
+DESTINATION = "./www/" # end with slash
+HOME_SHOW = 10 # numer of entries to show on homepage
 TEMPLATE_PATH = "./templates/"
 TEMPLATE_OPTIONS = {}
 TEMPLATES = {
@@ -25,11 +24,9 @@ TEMPLATES = {
     'archive': "archive.html",
 }
 TIME_FORMAT = "%B %d, %Y"
-ENTRY_TIME_FORMAT = "%m/%d/%y"
-#FORMAT should be a callable that takes in text
-#and returns formatted text
+# FORMAT should be a callable that takes in text
+# and returns formatted text
 FORMAT = lambda text: markdown.markdown(text, ['fenced_code']) 
-#########
 
 STEPS = []
 
