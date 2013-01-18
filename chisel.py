@@ -58,8 +58,8 @@ def get_tree(source):
             f = open(path, "rU")
             lines = f.readlines()
             title = lines[0].strip()
-            date = time.strptime(lines[1].strip(), ENTRY_TIME_FORMAT)
-            content = ''.join(lines[3:]).decode('UTF-8')
+            date = time.strptime("%s %s %s" % (name.split("-")[0], name.split("-")[1], name.split("-")[2]), "%Y %m %d")
+            content = ''.join(lines[1:]).decode('UTF-8')
             year, month, day = date[:3]
             content_md = ''.join(lines).decode('UTF-8')
             f.close()
