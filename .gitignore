@@ -1,3 +1,3 @@
-www
-posts
+*.pyc
 venv
+www
